@@ -53,7 +53,7 @@ entradaDeDados.question("Digite o nome do cliente: ", function(nome){
                                 tempoFinal = tempoDePagamento * 12
                             }
 
-                            let montanteFinal = capitalInicial * ((taxaDeJuros / 100 + 1) ** tempoFinal)
+                            let montanteFinal = Number(capitalInicial) * ((taxaDeJuros / 100 + 1) ** Number(tempoFinal))
                             let acrescimo = montanteFinal - capitalInicial
 
                             console.log(`
