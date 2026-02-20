@@ -23,6 +23,4 @@
     
  }
 
- module.exports = {
-   realizarCalculo
- }
+ module.exports = { realizarCalculo }
