@@ -38,7 +38,7 @@ entradaDeDados.question("Digite o primeiro valor: ", function(valor1) {
                 
                 let resultado = calculos.realizarCalculo(v1, v2, operacaoTratada)
                 
-                if(operacaoTratada == "divisao" || operacaoTratada == "multiplicacao"){
+                if(operacaoTratada == "divisao"){
                     console.log(` 
                         ${v1} / ${v2} = ${resultado.toFixed(2)}
                     `)
