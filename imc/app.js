@@ -5,9 +5,9 @@
  * Versão: 1.0
  **********************************************************************************************************/
 
-const { calcularImc, classificarImc } = require('./modulo/calculos')
+const { calcularImc, classificarImc } = require('./modulo/imc')
 
-const imc = calcularImc(70, 1.75)
+const imc = calcularImc(78, 1.70)
 
 if(imc){
     const status = classificarImc(imc)

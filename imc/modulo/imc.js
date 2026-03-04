@@ -1,7 +1,7 @@
 /***************************************************************************************************
- * Objetivo: Arquivo responsável pelos cálculos matemáticos básicos da aplicação
+ * Objetivo: Arquivo responsável por fazer o cálculo do IMC (índice de massa corporal)
  * Autor: Gisele
- * Data: 01/03/26
+ * Data: 04/03/26
  * Versão: 1.0
  ***************************************************************************************************/
 
@@ -40,6 +40,5 @@ function classificarImc(imc){
 
 module.exports = {
 calcularImc, 
-classificarImc, 
-mostrarResultado
+classificarImc
 }
