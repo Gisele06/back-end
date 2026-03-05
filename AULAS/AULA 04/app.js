@@ -1,6 +1,6 @@
 /***************************************************************************************************
- * Objetivo: Arquivo responsável pelos cálculos matemáticos básicos da aplicação
+ * Objetivo: Arquivo responsável pelas funções de cálculos de média e definição de status do aluno
  * Autor: Gisele
- * Data: 01/03/26
- * Versão: 1.0
+ * Data: 05/03/26
+ * Versão: 1.1 (Corrigida)
  ***************************************************************************************************/
