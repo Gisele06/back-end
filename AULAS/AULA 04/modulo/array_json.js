@@ -105,7 +105,37 @@ const manipularDados = function(){
     listaDeFornecedores.push("Caio")
     listaDeFornecedores.push("Luiz")
 
+    
+
+    //Permite adicionar novos elementos no ARRAY, sempre no INICIO
+    //Após adicionar o elemento, ele reorganiza todos os outros itens
+    listaDeFornecedores.unshift('Luciano')
     console.log(listaDeFornecedores)
+
+    //Permite adicionar um novo elemento em uma determinada posição do ARRAY
+                      //splice (indice, qtdeDeElementos, 'Novo conteúdo)
+    listaDeFornecedores.splice(3,0,'Bernardo')
+
+    console.table(listaDeFornecedores)
+
+    // permite remover um determinado conteudo com base no indice do
+    // elemento do ARRAY    
+                        //splice('indice, qtde de elementos a ser removido')
+    listaDeFornecedores.splice(6,2)
+    console.table(listaDeFornecedores)
+
+    //Permite remover o último elemento do ARRAY
+    listaDeFornecedores.pop()
+    console.table(listaDeFornecedores)
+
+    //Permite remover o primeiro elemento do ARRAY
+    //Após ele remover, irá reorganizar todos os elementos
+    listaDeFornecedores.shift()
+    console.table(listaDeFornecedores)
+}
+
+const removerNome = function(){
+    
 }
 
 manipularDados()
