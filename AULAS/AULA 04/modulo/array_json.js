@@ -105,7 +105,6 @@ const manipularDados = function(){
     listaDeFornecedores.push("Caio")
     listaDeFornecedores.push("Luiz")
 
-    
 
     //Permite adicionar novos elementos no ARRAY, sempre no INICIO
     //Após adicionar o elemento, ele reorganiza todos os outros itens
@@ -134,9 +133,30 @@ const manipularDados = function(){
     console.table(listaDeFornecedores)
 }
 
-const removerNome = function(){
+const removerNome = function(nomeAluno){
+    let cont = 0 
+    let qtde = listaDeAlunos.length
     
+
+    while(cont < qtde){
+        if(nomeAluno == listaDeAlunos[cont]){
+            listaDeAlunos.splice(cont, 1)
+        }
+        cont++
+    }
+
 }
 
-manipularDados()
+const verificarItem = function(nomeAluno){
+    //verificar se o conteúdo existe dentro do ARRAY e retorna (true/false)
+    return listaDeAlunos.includes(nomeAluno)
+}
+
+
 // exibirDados()
+
+console.table(listaDeAlunos)
+
+// manipularDados()
+removerNome('José')
+console.table(listaDeAlunos)
