@@ -152,6 +152,26 @@ const verificarItem = function(nomeAluno){
     return listaDeAlunos.includes(nomeAluno)
 }
 
+const manipularDadosJSON = function (){
+    //Criando um objeto JSON
+     //A estrutura do JSON é a Chave (atributo) : Valor (conteúdo)
+    let aluno = {"id":1, "nome" :"José da Silva", "ra":123456, "email":"jose@gmail.com"}
+
+    //Adiciona um novo atributo no JSON já existente
+    aluno.telefone = "011-975845252"
+    aluno.data_nascimento = "10/05/2000"
+
+    //Exibe o objeto JSON
+    console.log(aluno)
+
+    //Exibe um atributo só, não o json inteiro
+    console.log(aluno.nome)
+
+    //Remove um atributo do JSON
+    delete aluno.email
+    console.log(aluno)
+
+}
 
 // exibirDados()
 
@@ -160,3 +180,4 @@ console.table(listaDeAlunos)
 // manipularDados()
 removerNome('José')
 console.table(listaDeAlunos)
+manipularDadosJSON()
