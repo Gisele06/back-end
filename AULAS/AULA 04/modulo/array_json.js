@@ -230,18 +230,22 @@ const cadastroDeProdutos = function(){
 }
 
 const exibirProdutos = function(produtos){
+    //Extrai a cor
+    produtos.forEach(function(itemProduto){
 
-    produtos.forEach(function(produto){
+        console.log(`Produto: ${itemProduto.nome}`)
+        console.log(`Quantidade: ${itemProduto.qtde}`)
+        console.log(`Valor: ${itemProduto.valor}`)
 
-        console.log(`Produto: ${produto.nome}`)
-        console.log(`Quantidade: ${produto.qtde}`)
-        console.log(`Valor: ${produto.valor}`)
-        console.log(`Cor: `)
-        produto.cor.forEach(function(cor){
-            console.log(cor.cor)
+        //Extrai a cor
+        itemProduto.cor.forEach(function(itemCor){
+            console.log(`Cor: ${itemCor.cor}`)
         })
-        console.log(`Marca: 
-${produto.marca}`)
+        
+        //Extrai a marca
+        itemProduto.marca.forEach(function(itemMarca){
+            console.log(`Marca: ${itemMarca}`)
+        })
         console.log("---------------")
 
     })
