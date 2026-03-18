@@ -230,26 +230,68 @@ const cadastroDeProdutos = function(){
 }
 
 const exibirProdutos = function(produtos){
-    //Extrai a cor
-    produtos.forEach(function(itemProduto){
+    // //Extrai a cor
+    // produtos.forEach(function(itemProduto){
 
-        console.log(`Produto: ${itemProduto.nome}`)
-        console.log(`Quantidade: ${itemProduto.qtde}`)
-        console.log(`Valor: ${itemProduto.valor}`)
+    //     console.log(`Produto: ${itemProduto.nome}`)
+    //     console.log(`Quantidade: ${itemProduto.qtde}`)
+    //     console.log(`Valor: ${itemProduto.valor}`)
 
-        //Extrai a cor
-        itemProduto.cor.forEach(function(itemCor){
-            console.log(`Cor: ${itemCor.cor}`)
-        })
+    //     //Extrai a cor
+    //     itemProduto.cor.forEach(function(itemCor){
+    //         console.log(`Cor: ${itemCor.cor}`)
+    //     })
         
-        //Extrai a marca
+    //     //Extrai a marca
+    //     itemProduto.marca.forEach(function(itemMarca){
+    //         console.log(`Marca: ${itemMarca}`)
+    //     })
+    //     console.log("---------------")
+
+    // })
+
+    //Permite extrair os produtos
+    produtos.forEach(function(itemProduto){
+        console.log(`   Produto: ${itemProduto.nome}`)
+
+        //Permite extrair as marcas dentro de cada produto
         itemProduto.marca.forEach(function(itemMarca){
-            console.log(`Marca: ${itemMarca}`)
+            console.log(`   Marca: ${itemMarca}`)
         })
-        console.log("---------------")
+
+        //Permite extrair as cores dentro de cada produto
+        itemProduto.cor.forEach(function(itemCor){
+            console.log(`   Cor: ${itemCor.cor}`)
+        })
 
     })
 
+    console.log(`----------------------------------------------`)
+    //Filtrando produtos pelo NOME
+    console.log(`Exemplo de como pesquisar um produto pelo nome`)
+    
+    let nomeProduto = 'Mouse'
+    produtos.forEach(function(itemProduto){
+        if(String(nomeProduto).toLowerCase() == String(itemProduto.nome).toLowerCase()){
+            console.log(itemProduto)
+        }
+    })
+    
+    console.log(`----------------------------------------------`)
+
+     //Filtrando produtos pela COR
+     console.log(`Exemplo de como pesquisar um produto pela cor`)
+    
+    let corProduto = 'branco'
+    
+    produtos.forEach(function(itemProduto){
+        itemProduto.cor.forEach(function(itemCor){
+            if(String(corProduto).toLowerCase() == String(itemCor.cor).toLowerCase()){
+                console.log(itemProduto)
+            }
+        })
+    })
+ 
 }
 
 console.table(listaDeAlunos)
