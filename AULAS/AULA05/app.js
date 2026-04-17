@@ -82,3 +82,107 @@ app.listen(4040, function(){
 })
 
 //http://localhost:4040/cidades
+
+//Endpoint que retorna capital e dados do estado filtrando pela sigla
+app.get('/v1/senai/capital/estado/:uf', function(request, response){
+    let uf = request.params.uf
+    let estado = estadosCidades.getCapitalEstado(uf)
+
+    if(estado){
+        response.status(200)
+        response.json(estado)
+    }else{
+        response.status(404)
+        response.json({"message": "Capital não encontrada"})
+    }
+})
+
+//Endpoint que retorna todos os estados de uma região, filtrando pela região
+app.get('/v1/senai/estados/regiao/:regiao', function(request, response){
+    let regiao = request.params.regiao
+    let estados = estadosCidades.getEstadosRegiao(regiao)
+
+    if(estados){
+        response.status(200)
+        response.json(estados)
+    }else{
+        response.status(404)
+        response.json({message: "Região não encontrada"})
+    }
+})
+
+//Endpoint que retorna todas as capitais do Brasil (antigas e atual)
+app.get('/v1/senai/estados/capital/brasil', function(request, response){
+    let estado = estadosCidades.getCapitalPais()
+
+    if(estado){
+        response.status(200)
+        response.json(estado)  
+    }else{
+        response .status(404)
+        response.json({"message": "Nenhuma Capital encontrada"})
+    }
+})
+
+
+app.get('/v1/senai/cidades/estado/:uf', function(request, response){
+    let uf = request.params.uf
+    let cidades = estadosCidades.getCidades(uf)
+
+    if(cidades){
+        response.status(200)
+        response.json(cidades)
+    }else{
+        response.status(404)
+        response.json({message: "Nenhuma cidade encontrada"})
+    }
+})
+
+app.get('/v1/senai/help', function(request, response){
+
+    let docAPI ={
+        "api-description" : "API para manipular dados de Estado e Cidades",
+        "date"            : "26/04/04",
+        "development"     : "Gisele Rodrigues dos Santos",
+        "version"         : 1.0,
+        "endpoints"       : [
+            {
+                "router1"    : "/v1/senai/lista/estados",
+                "description": "Retorna a Lista de todos os Estados",
+            },
+
+            {
+                "router2"    : "/v1/senai/dados/estado/sp",
+                "description": "Retorna Dados de um Estado, filtrando pela sigla",
+            },
+
+            {
+                "router3"    : "/v1/senai/capital/estado/sp",
+                "description": "Retorna Dados da Capital de um Estado, filtrando pela sigla",
+            },
+
+            {
+                "router4"    : "/v1/senai/estados/regiao/sudeste",
+                "description": "Retorna os Estados, filtrando pela região",
+            },
+
+            {
+                "router5"    : "/v1/senai/estados/capital/brasil",
+                "description": "Retorna os Estados que são ou foram Capitais do Brasil",
+            },
+
+            {
+                "router6"    : "/v1/senai/cidades/estado/sp",
+                "description": "Retorna as Cidades, filtrando pela sigla do Estado",
+            }
+        ]
+    }
+
+    if(docAPI){
+        response.status(200)
+        response.json(docAPI)
+    }else{
+        response.status(404)
+        response.json("Erro ao tentar encontrar a Documentação da API")
+    }
+})
