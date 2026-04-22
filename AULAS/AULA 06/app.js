@@ -23,16 +23,23 @@ app.use(cors(corsOptions))
 const controllerFilme = require('./controller/filme/controller_filme.js')
 
 //ENDPOINTS 
-app.post('/v1/senai/locadora/filme',bodyParserJSON, async function(request, response){
+app.post('/v1/senai/locadora/filme', bodyParserJSON, async function(request, response){
     //Recebendo o body da requisição
     let dados = request.body
 
-    let result = await controllerFilme.inserirNovoFilme(dados)
+    //Recebendo o tipo de dados da requisição para validar se é JSON
+    let contentType = request.headers['content-type']
+
+    //Chama a função de inserir e encaminha os dados do filme e o contentType
+    let result = await controllerFilme.inserirNovoFilme(dados, contentType)
+    console.log(result)
+
     response.status(result.status_code)
     response.json(result)
+
 })
 
 //Fazer o Start na API (aguardando as requisições)
-app.listen(4040, function(){
+app.listen(8080, function(){
     console.log('API aguardando novas requisições ...')
 })

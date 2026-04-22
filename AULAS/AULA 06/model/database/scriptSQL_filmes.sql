@@ -43,5 +43,7 @@ insert into tbl_filme(
     '2026-04-02',
     '01:39:00',
     '50.60',
-    '3'
+    if("", null, 2)
 );
+
+select *from tbl_filme
