@@ -46,4 +46,6 @@ insert into tbl_filme(
     if("", null, 2)
 );
 
-select *from tbl_filme
+select * from tbl_filme order by id desc;
+select * from tbl_filme where id = 3;
+delete from tbl_filme where id > 0;

@@ -58,7 +58,9 @@ app.get('/v1/senai/estados', function(request, response){
 
 //Endpoint para listar os dados de um estado, filtrando por sua sigla
 app.get('/v1/senai/dados/estado/:uf', function(request, response){
-    let sigla = request.params.uf
+    // let sigla = request.params.uf
+    let sigla = request.query.uf
+
     let estado = estadosCidades.getDadosEstado(sigla)
 
     if(estado){
@@ -77,7 +79,7 @@ app.get('./cidades', function(request, response){
 })
 
 //Fazer o Start na API (aguardando as requisições)
-app.listen(4040, function(){
+app.listen(8080, function(){
     console.log('API aguardando novas requisições ...')
 })
 

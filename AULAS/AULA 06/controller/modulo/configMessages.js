@@ -20,14 +20,19 @@ const ERROR_BAD_REQUEST                 = {status: false, status_code: 400, mess
 const ERROR_INTERNAL_SERVER_MODEL       = {status: false, status_code: 500, message: 'Não foi possível processar a requisição devido a um erro interno no servidor [MODEL]'}
 const ERROR_CONTENT_TYPE                = {status: false, status_code: 415, message: 'Não foi possível processar a requisição, pois o formato de dados encaminhado não é suportado pelo servidor, apenas deve ser utilizado JSON.'}
 const ERROR_INTERNAL_SERVER_CONTROLLER  = {status: false, status_code: 500, message: 'Não foi possível processar a requisição devido a um erro interno no servidor [CONTROLLER]'}
+const ERROR_NOT_FOUND                   = {status: false, status_code: 404, message: 'Não foram encontrados dados para retorno.'}
 
 //Mensagens de SUCESSO do projeto de filmes
-const SUCCESS_CREATED_ITEM = {status: true, status_code: 201, message: 'Item inserido com sucesso!'}
+const SUCCESS_CREATED_ITEM  = {status: true, status_code: 201, message: 'Item inserido com sucesso!'}
+//Não é necessário ter message pois já iremos retornar os dados
+const SUCESS_RESPONSE       = {status: true, status_code: 200}
 module.exports = {
     DEFAULT_MESSAGE,
     ERROR_BAD_REQUEST,
     SUCCESS_CREATED_ITEM,
     ERROR_INTERNAL_SERVER_MODEL,
     ERROR_CONTENT_TYPE,
-    ERROR_INTERNAL_SERVER_CONTROLLER
+    ERROR_INTERNAL_SERVER_CONTROLLER,
+    ERROR_NOT_FOUND,
+    SUCESS_RESPONSE
 }
