@@ -23,9 +23,11 @@ const ERROR_INTERNAL_SERVER_CONTROLLER  = {status: false, status_code: 500, mess
 const ERROR_NOT_FOUND                   = {status: false, status_code: 404, message: 'Não foram encontrados dados para retorno.'}
 
 //Mensagens de SUCESSO do projeto de filmes
-const SUCCESS_CREATED_ITEM  = {status: true, status_code: 201, message: 'Item inserido com sucesso!'}
-//Não é necessário ter message pois já iremos retornar os dados
-const SUCESS_RESPONSE       = {status: true, status_code: 200}
+const SUCCESS_CREATED_ITEM   = {status: true, status_code: 201, message: 'Item inserido com sucesso!'}
+const SUCCESS_RESPONSE       = {status: true, status_code: 200} //Não é necessário ter message pois já iremos retornar os dados
+const SUCCESS_UPDATED_ITEM   = {status: true, status_code: 200, message: 'Item atualizado com sucesso!'}
+const SUCCESS_DELETED_ITEM    = {status: true, status_code: 200, message: 'Item deletado com sucesso!'}
+
 module.exports = {
     DEFAULT_MESSAGE,
     ERROR_BAD_REQUEST,
@@ -34,5 +36,7 @@ module.exports = {
     ERROR_CONTENT_TYPE,
     ERROR_INTERNAL_SERVER_CONTROLLER,
     ERROR_NOT_FOUND,
-    SUCESS_RESPONSE
+    SUCCESS_RESPONSE,
+    SUCCESS_UPDATED_ITEM,
+    SUCCESS_DELETED_ITEM
 }

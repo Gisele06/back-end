@@ -10,6 +10,8 @@ use db_filmes_20261_b;
 #Permite visualizar todas as tabelas existentes dentro do database
 show tables;
 
+select * from tbl_filme;
+
 create table tbl_filme (
 	id 						int not null auto_increment primary key, 
     nome 					varchar(80) not null, 
@@ -47,5 +49,16 @@ insert into tbl_filme(
 );
 
 select * from tbl_filme order by id desc;
-select * from tbl_filme where id = 3;
-delete from tbl_filme where id > 0;
+select * from tbl_filme where id = 10;
+delete from tbl_filme where id = 1;
+
+update tbl_filme set 
+	nome = 'Filme 01 - teste de atualização',
+    sinopse = 'testando a atualização de filme',
+    capa = 'teste',
+    data_lancamento = '2026-04-29',
+    duracao = '02:30:00',
+    valor = '10',
+    avaliacao = '2'
+where id = 1;
+    
