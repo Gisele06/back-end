@@ -28,15 +28,18 @@ const inserirNovoFilme = async function (filme, contentType){
                 return validar //400
             }else{
                 //Encaminha os dados do Filme para o DAO inserir no BD
-                let result = await filmeDAO.insertFilme(filme)
-        
+                let result = await filmeDAO.insertFilme(await tratarDados(filme))
+                
                 console.log(result)
         
-                if(result){
+                if(result){//201
+                    //Cria o ID no JSON do filme e adiciona o ID gerado no DAO
+                    filme.id = result 
                     customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_CREATED_ITEM.status
                     customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_CREATED_ITEM.status_code
                     customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCESS_CREATED_ITEM.message
-        
+                    customMessage.DEFAULT_MESSAGE.response = filme 
+
                     return customMessage.DEFAULT_MESSAGE
         
                 }else{ //erro 500(Model)
@@ -74,13 +77,13 @@ const atualizarFilme = async function(filme,id,contentType){
                     //Adiciona um atributo ID no JSON de filme, para enviar ao DAO um único objeto
                     filme.id = Number(id)
                     //Chama a função para atualizar o filme no BD
-                    let result = await filmeDAO.updateFilme(filme)
+                    let result = await filmeDAO.updateFilme(await tratarDados(filme))
 
                     if(result){
                         customMessage.DEFAULT_MESSAGE.status        = customMessage.SUCCESS_UPDATED_ITEM.status
                         customMessage.DEFAULT_MESSAGE.status_code   = customMessage.SUCCESS_UPDATED_ITEM.status_code
                         customMessage.DEFAULT_MESSAGE.message       = customMessage.SUCCESS_UPDATED_ITEM.message
-
+                        customMessage.DEFAULT_MESSAGE.response      = filme
                         return customMessage.DEFAULT_MESSAGE //200 (Atualizado)
 
 
@@ -181,23 +184,19 @@ const excluirFilme = async function(id){
     let customMessage = JSON.parse(JSON.stringify(configMessages))
 
     try {
-        if(id == undefined || String(id).replaceAll(' ', '') == '' ||id == '' || id == null || isNaN(id) || id <= 0){
-            customMessage.ERROR_BAD_REQUEST.field = `[ID] INVÁLIDO.`
-            return customMessage.ERROR_BAD_REQUEST //400
-        }else{
 
+        let resultBuscarFilme = await buscarFilme(id)
+
+        if(resultBuscarFilme.status){
             let result = await filmeDAO.deleteFilme(id)
 
             if(result){
-                customMessage.DEFAULT_MESSAGE.status            = customMessage.SUCCESS_DELETED_ITEM.status
-                customMessage.DEFAULT_MESSAGE.status_code       = customMessage.SUCCESS_DELETED_ITEM.status_code
-                customMessage.DEFAULT_MESSAGE.message           = customMessage.SUCCESS_DELETED_ITEM.message
-
-                return customMessage.DEFAULT_MESSAGE //200
+                return customMessage.SUCCESS_DELETED_ITEM
             }else{
-                return customMessage.ERROR_NOT_FOUND //404
+                return customMessage.ERROR_INTERNAL_SERVER_MODEL
             }
-
+        }else{
+            return resultBuscarFilme 
         }
 
     } catch (error) {
@@ -237,10 +236,23 @@ const validarDados = async function(filme){
     }
 }
 
+const tratarDados = async function(filme){
+    //Tratamento para eliminar a chegada de aspas (') como caracter inválido
+    filme.nome              =           filme.nome.replaceAll("'", "")
+    filme.sinopse           =           filme.sinopse.replaceAll("'", "")
+    filme.capa              =           filme.capa.replaceAll("'", "")
+    filme.data_lancamento   =           filme.data_lancamento.replaceAll("'", "")
+    filme.duracao           =           filme.duracao.replaceAll("'", "")
+    filme.valor             =           filme.valor.replaceAll("'", "")
+    filme.avaliacao         =           filme.avaliacao.replaceAll("'", "")
+
+    return filme
+}
 module.exports = {
     inserirNovoFilme,
     atualizarFilme,
     listarFilmes,
     buscarFilme,
-    excluirFilme
+    excluirFilme,
+    tratarDados
 }
