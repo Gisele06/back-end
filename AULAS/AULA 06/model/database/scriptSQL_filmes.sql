@@ -61,4 +61,30 @@ update tbl_filme set
     valor = '10',
     avaliacao = '2'
 where id = 1;
+
+create table tbl_atividade (
+	id 			int not null auto_increment primary key, 
+    atividade 	varchar(50) not null
+);
+
+create table tbl_genero (
+	id 		int not null auto_increment primary key,
+    genero 	varchar(15) not null
+);
     
+create table tbl_classificacao(
+	id 				int not null auto_increment primary key,
+    classificacao 	int not null
+);
+
+create table tbl_ator(
+	id 							int not null auto_increment primary key,
+    nome 						varchar(100) not null,
+    nome_completo 				varchar(100) not null,
+    biografia 					text not null,
+    url_foto 					varchar(255) not null,
+    idade 						int not null,
+    data_nascimento 			date not null,
+    anos_de_carreira 			int not null,
+    quantidade_filmes_feitos 	int not null
+);
