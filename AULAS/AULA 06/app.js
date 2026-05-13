@@ -21,6 +21,7 @@ const corsOptions = {
 app.use(cors(corsOptions))
 
 const controllerFilme = require('./controller/filme/controller_filme.js')
+const controllerGenero = require('./controller/genero/controller_genero.js')
 
 //ENDPOINTS 
 app.post('/v1/senai/locadora/filme', bodyParserJSON, async function(request, response){
@@ -81,7 +82,64 @@ app.delete('/v1/senai/locadora/filme/:id', bodyParserJSON, async function(reques
     response.json(result)
 })
 
-//Fazer o Start na API (aguardando as requisições)
+//ENDPOINTS DE GÊNERO
+app.post('/v1/senai/locadora/genero', bodyParserJSON, async function(request, response){
+
+    
+    let dados = request.body
+    
+    let contentType = request.headers['content-type']
+    
+    let result = await controllerGenero.inserirNovoGenero(dados, contentType)
+    
+    response.status(result.status_code)
+    response.json(result)
+   
+    
+})
+    
+app.get('/v1/senai/locadora/genero', async function(request, response){
+    let result = await controllerGenero.listarGenero()
+    
+    response.status(result.status_code)
+    response.json(result)
+    
+
+})
+    
+app.get('/v1/senai/locadora/genero/:id', async function(request, response){
+    
+    let id = request.params.id
+    
+    let result = await controllerGenero.buscarGenero(id)
+    
+    response.status(result.status_code)
+    response.json(result)
+})
+    
+app.put('/v1/senai/locadora/genero/:id', bodyParserJSON, async function(request, response){
+    let contentType = request.headers['content-type']
+    
+    let id = request.params.id
+    
+    let dados = request.body
+    
+    let result = await controllerGenero.atualizarGenero(dados, id, contentType)
+    
+    response.status(result.status_code)
+    response.json(result)
+
+})
+    
+app.delete('/v1/senai/locadora/genero/:id', bodyParserJSON, async function(request, response){
+    let id = request.params.id
+    
+    let result = await controllerGenero.excluirGenero(id)
+    
+    response.status(result.status_code)
+    response.json(result)
+})
+    
 app.listen(8080, function(){
     console.log('API aguardando novas requisições ...')
 })

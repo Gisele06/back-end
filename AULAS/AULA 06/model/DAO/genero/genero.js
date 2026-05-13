@@ -1,41 +1,121 @@
 /***********************************************************
- * Objetivo:Arquivo responsável pelo CRUD de dados do Gênero do filme no banco de dados
- *          MySQL
- * Data:    08/05/2026
- * Autor:   Gisele
- * Versão:  1.0
+ * Objetivo: Arquivo responsável pelo CRUD de dados do Gênero no banco de dados MySQL
+ * Data: 15/04/2026
+ * Autor: Gisele
+ * Versão: 1.0
  ******************************************************************************/
-//Import da biblioteca para manipular dados no Banco de dados MySQL
+
 const knex = require('knex')
 
-//Import do arquivo de configuração para acesso ao banco de dados
 const knexDatabaseConfig = require('../../database_config/knexConfig.js')
 
-//Criar a conexão com o BD Mysql conforme o arquivo de configuração
 const knexConection = knex(knexDatabaseConfig.development)
 
-const insertGenero = async function (genero){
-   try {
+//Inserir gênero
+const insertGenero = async function(genero){
 
-    let sql =  `insert into tbl_genero(
-        genero
-    )values(
-        ${genero.genero}
-    );`
+    try {
 
-    //Encaminha para o BD o scriptSQL
-    let result = await knexConection.raw(sql)
+        let sql = `insert into tbl_genero(
+                        genero
+                    ) values(
+                        '${genero.genero}'
+                    );`
 
-    if(result)
-        return true
-    else
+        let result = await knexConection.raw(sql)
+
+        if(result)
+            return result[0].insertId
+        else
+            return false
+
+    } catch (error) {
         return false
+    }
+}
 
-   } catch (error) {
-    return false
-   }
+//Atualizar gênero
+const updateGenero = async function(genero){
+
+    try {
+
+        let sql = `update tbl_genero set
+                        genero = '${genero.genero}'
+                    where id = ${genero.id};`
+
+        let result = await knexConection.raw(sql)
+
+        if(result)
+            return true
+        else
+            return false
+
+    } catch (error) {
+        return false
+    }
+}
+
+//Listar todos os gêneros
+const selectAllGenero = async function(){
+
+    try {
+
+        let sql = 'select * from tbl_genero order by id desc'
+
+        let result = await knexConection.raw(sql)
+
+        if(Array.isArray(result))
+            return result[0]
+        else
+            return false
+
+    } catch (error) {
+        return false
+    }
+}
+
+//Buscar gênero por ID
+const selectByIdGenero = async function(id){
+
+    try {
+
+        let sql = `select * from tbl_genero where id = ${id}`
+
+        let result = await knexConection.raw(sql)
+
+        if(Array.isArray(result))
+            return result[0]
+        else
+            return false
+
+    } catch (error) {
+        return false
+    }
+}
+
+//Excluir gênero
+const deleteGenero = async function(id){
+
+    try {
+
+        let sql = `delete from tbl_genero where id = ${id}`
+
+        let result = await knexConection.raw(sql)
+
+        if(result)
+            return true
+        else
+            return false
+
+    } catch (error) {
+        return false
+    }
 }
 
 module.exports = {
-    insertGenero
+    insertGenero,
+    updateGenero,
+    selectAllGenero,
+    selectByIdGenero,
+    deleteGenero
 }

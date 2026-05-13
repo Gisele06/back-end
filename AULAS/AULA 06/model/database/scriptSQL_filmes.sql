@@ -71,20 +71,121 @@ create table tbl_genero (
 	id 		int not null auto_increment primary key,
     genero 	varchar(15) not null
 );
+
+insert into tbl_genero(
+	genero
+)values(
+	'terror'
+);
     
 create table tbl_classificacao(
 	id 				int not null auto_increment primary key,
     classificacao 	int not null
 );
 
-create table tbl_ator(
-	id 							int not null auto_increment primary key,
-    nome 						varchar(100) not null,
-    nome_completo 				varchar(100) not null,
-    biografia 					text not null,
-    url_foto 					varchar(255) not null,
-    idade 						int not null,
-    data_nascimento 			date not null,
-    anos_de_carreira 			int not null,
-    quantidade_filmes_feitos 	int not null
+create table tbl_trailer(
+	id 					int not null auto_increment primary key,
+    titulo 				varchar(100) not null,
+    url_video 			varchar(255) not null,
+    data_publicacao 	date not null
 );
+
+insert into tbl_trailer(
+	titulo,
+    url_video,
+    data_publicacao
+)values(
+	'Trailer Oficial',
+    'https://youtube.com/trailer_mario',
+    '2025-12-20'
+);
+
+
+create table tbl_filme_trailer(
+	id 				int not null auto_increment primary key,
+    id_trailer 		int not null,
+    id_filme 		int not null,
+    
+    constraint fk_filme_trailer_trailer
+    foreign key(id_trailer)
+    references tbl_trailer(id),
+    
+    constraint fk_filme_trailer_filme
+    foreign key(id_filme)
+    references tbl_filme(id)
+);
+
+insert into tbl_filme_trailer(
+	id_trailer,
+    id_filme
+)values(
+	1,
+    1
+);
+
+create table tbl_filme_foto(
+	id 				int not null auto_increment primary key,
+    url_foto 		varchar(255) not null,
+    legenda 		varchar(150) not null,
+    tipo 			varchar(30) not null,
+    principal_foto boolean,
+    ordem_foto 	int,
+    id_filme 		int not null,
+    
+    constraint fk_filme_foto_filme
+    foreign key(id_filme)
+    references tbl_filme(id)
+);
+
+insert into tbl_filme_foto(
+	url_foto,
+    legenda,
+    tipo,
+    principal_foto,
+    ordem_foto,
+    id_filme
+)values(
+	'https://imagemfilme.com/poster.jpg',
+    'Poster oficial do filme',
+    'poster',
+    true,
+    1,
+    1
+);
+
+# TABELA ATOR_FOTO
+
+create table tbl_ator_foto(
+	id 				int not null auto_increment primary key,
+    url_foto 		varchar(255) not null,
+    legenda 		varchar(150) not null,
+    tipo 			varchar(30) not null,
+    principal_foto boolean,
+    ordem_foto 	int,
+    id_ator 		int not null,
+    
+    constraint fk_ator_foto_ator
+    foreign key(id_ator)
+    references tbl_ator(id)
+);
+
+insert into tbl_ator_foto(
+	url_foto,
+    legenda,
+    tipo,
+    principal_foto,
+    ordem_foto,
+    id_ator
+)values(
+	'https://fotoator.com/meryl.jpg',
+    'Foto oficial da atriz',
+    'perfil',
+    true,
+    1,
+    1
+);
+
+select * from tbl_trailer;
+select * from tbl_filme_trailer;
+select * from tbl_filme_foto;
+select * from tbl_ator_foto;
