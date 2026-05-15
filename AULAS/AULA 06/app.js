@@ -140,6 +140,8 @@ app.delete('/v1/senai/locadora/genero/:id', bodyParserJSON, async function(reque
     response.json(result)
 })
     
+//ENDPOINTS DE CLASSIFICAÇÃO
+
 app.listen(8080, function(){
     console.log('API aguardando novas requisições ...')
 })
