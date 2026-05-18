@@ -1,15 +1,15 @@
 /******************************************************************************************
- * Objetivo: Arquivo responsável pela validação, tratamento e manipulação de dados de classificação
- * Data: 15/05/2026
+ * Objetivo: Arquivo responsável pela validação, tratamento e manipulação de dados de papel
+ * Data: 18/05/2026
  * Autor: Gisele
  * Versão: 1.0
  ******************************************************************************************/
 
 const configMessages = require('../modulo/configMessages.js')
 
-const classificacaoDAO = require('../../model/DAO/classificacao/classificacao.js')
+const papelDAO = require('../../model/DAO/papel/papel.js')
 
-const inserirNovaClassificacao = async function(classificacao, contentType){
+const inserirNovoPapel = async function(papel, contentType){
 
     let customMessage = JSON.parse(JSON.stringify(configMessages))
 
@@ -17,22 +17,22 @@ const inserirNovaClassificacao = async function(classificacao, contentType){
 
         if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){
 
-            let validar = await validarDados(classificacao)
+            let validar = await validarDados(papel)
 
             if(validar){
                 return validar
             }else{
 
-                let result = await classificacaoDAO.insertClassificacao(await tratarDados(classificacao))
+                let result = await papelDAO.insertPapel(await tratarDados(papel))
 
                 if(result){
 
-                    classificacao.id = result
+                    papel.id = result
 
                     customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_CREATED_ITEM.status
                     customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_CREATED_ITEM.status_code
                     customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCESS_CREATED_ITEM.message
-                    customMessage.DEFAULT_MESSAGE.response = classificacao
+                    customMessage.DEFAULT_MESSAGE.response = papel
 
                     return customMessage.DEFAULT_MESSAGE
 
@@ -46,11 +46,12 @@ const inserirNovaClassificacao = async function(classificacao, contentType){
         }
 
     } catch (error) {
+        console.log(error)
         return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER //500(controller)
     }
 }
 
-const atualizarClassificacao = async function(classificacao, id, contentType){
+const atualizarPapel = async function(papel, id, contentType){
 
     let customMessage = JSON.parse(JSON.stringify(configMessages))
 
@@ -58,24 +59,24 @@ const atualizarClassificacao = async function(classificacao, id, contentType){
 
         if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){
 
-            let resultBuscarClassificacao = await buscarClassificacao(id)
+            let resultBuscarPapel = await buscarPapel(id)
 
-            if(resultBuscarClassificacao.status){
+            if(resultBuscarPapel.status){
 
-                let validar = await validarDados(classificacao)
+                let validar = await validarDados(papel)
 
                 if(!validar){
 
-                    classificacao.id = Number(id)
+                    papel.id = Number(id)
 
-                    let result = await classificacaoDAO.updateClassificacao(await tratarDados(classificacao))
+                    let result = await papelDAO.updatePapel(await tratarDados(papel))
 
                     if(result){
 
                         customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_UPDATED_ITEM.status
                         customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_UPDATED_ITEM.status_code
                         customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCESS_UPDATED_ITEM.message
-                        customMessage.DEFAULT_MESSAGE.response = classificacao
+                        customMessage.DEFAULT_MESSAGE.response = papel
 
                         return customMessage.DEFAULT_MESSAGE
 
@@ -88,7 +89,7 @@ const atualizarClassificacao = async function(classificacao, id, contentType){
                 }
 
             }else{
-                return resultBuscarClassificacao //404
+                return resultBuscarPapel //404
             }
 
         }else{
@@ -96,17 +97,18 @@ const atualizarClassificacao = async function(classificacao, id, contentType){
         }
 
     } catch (error) {
+        console.log(error)
         return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER //500(controller)
     }
 }
 
-const listarClassificacoes = async function(){
+const listarPapel = async function(){
 
     let customMessage = JSON.parse(JSON.stringify(configMessages))
 
     try {
 
-        let result = await classificacaoDAO.selectAllClassificacao()
+        let result = await papelDAO.selectAllPapel()
 
         if(result){
 
@@ -115,7 +117,7 @@ const listarClassificacoes = async function(){
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_RESPONSE.status
                 customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_RESPONSE.status_code
                 customMessage.DEFAULT_MESSAGE.response.count = result.length
-                customMessage.DEFAULT_MESSAGE.response.classificacoes = result
+                customMessage.DEFAULT_MESSAGE.response.papeis = result
 
                 return customMessage.DEFAULT_MESSAGE
 
@@ -128,11 +130,12 @@ const listarClassificacoes = async function(){
         }
 
     } catch (error) {
+        console.log(error)
         return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER //500(controller)
     }
 }
 
-const buscarClassificacao = async function(id){
+const buscarPapel = async function(id){
 
     let customMessage = JSON.parse(JSON.stringify(configMessages))
 
@@ -149,7 +152,7 @@ const buscarClassificacao = async function(id){
 
         }else{
 
-            let result = await classificacaoDAO.selectByIdClassificacao(id)
+            let result = await papelDAO.selectByIdPapel(id)
 
             if(result){
 
@@ -157,7 +160,7 @@ const buscarClassificacao = async function(id){
 
                     customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_RESPONSE.status
                     customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_RESPONSE.status_code
-                    customMessage.DEFAULT_MESSAGE.response.classificacao = result
+                    customMessage.DEFAULT_MESSAGE.response.papel = result
 
                     return customMessage.DEFAULT_MESSAGE
 
@@ -171,21 +174,22 @@ const buscarClassificacao = async function(id){
         }
 
     } catch (error) {
+        console.log(error)
         return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER //500(controller)
     }
 }
 
-const excluirClassificacao = async function(id){
+const excluirPapel = async function(id){
 
     let customMessage = JSON.parse(JSON.stringify(configMessages))
 
     try {
 
-        let resultBuscarClassificacao = await buscarClassificacao(id)
+        let resultBuscarPapel = await buscarPapel(id)
 
-        if(resultBuscarClassificacao.status){
+        if(resultBuscarPapel.status){
 
-            let result = await classificacaoDAO.deleteClassificacao(id)
+            let result = await papelDAO.deletePapel(id)
 
             if(result){
                 return customMessage.SUCCESS_DELETED_ITEM //200
@@ -194,21 +198,22 @@ const excluirClassificacao = async function(id){
             }
 
         }else{
-            return resultBuscarClassificacao //404
+            return resultBuscarPapel //404
         }
 
     } catch (error) {
+        console.log(error)
         return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER //500(controller)
     }
 }
 
-const validarDados = async function(classificacao){
+const validarDados = async function(papel){
 
     let customMessage = JSON.parse(JSON.stringify(configMessages))
 
-    if(classificacao.classificacao == undefined || classificacao.classificacao == '' || classificacao.classificacao == null || classificacao.classificacao.length > 20){
+    if(papel.papel == undefined || papel.papel == '' || papel.papel == null || papel.papel.length > 50){
 
-        customMessage.ERROR_BAD_REQUEST.field = '[CLASSIFICAÇÃO] INVÁLIDA'
+        customMessage.ERROR_BAD_REQUEST.field = '[PAPEL] INVÁLIDO'
         return customMessage.ERROR_BAD_REQUEST //400
 
     }else{
@@ -216,17 +221,17 @@ const validarDados = async function(classificacao){
     }
 }
 
-const tratarDados = async function(classificacao){
+const tratarDados = async function(papel){
 
-    classificacao.classificacao = classificacao.classificacao.replaceAll("'", "")
+    papel.papel = papel.papel.replaceAll("'", "")
 
-    return classificacao
+    return papel
 }
 
 module.exports = {
-    inserirNovaClassificacao,
-    atualizarClassificacao,
-    listarClassificacoes,
-    buscarClassificacao,
-    excluirClassificacao
+    inserirNovoPapel,
+    atualizarPapel,
+    listarPapel,
+    buscarPapel,
+    excluirPapel
 }

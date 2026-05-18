@@ -1,6 +1,6 @@
 /***********************************************************
- * Objetivo: Arquivo responsável pelo CRUD de dados da Classificação no banco de dados MySQL
- * Data: 15/05/2026
+ * Objetivo: Arquivo responsável pelo CRUD de dados de Papel no banco de dados MySQL
+ * Data: 18/05/2026
  * Autor: Gisele
  * Versão: 1.0
  ******************************************************************************/
@@ -14,14 +14,14 @@ const knexDatabaseConfig = require('../../database_config/knexConfig.js')
 //Criar conexão com o banco de dados
 const knexConection = knex(knexDatabaseConfig.development)
 
-const insertClassificacao = async function(classificacao){
+const insertPapel = async function(papel){
 
     try {
 
-        let sql = `insert into tbl_classificacao(
-            classificacao
+        let sql = `insert into tbl_papel(
+            papel
         ) values(
-            '${classificacao.classificacao}'
+            '${papel.papel}'
         );`
 
         let result = await knexConection.raw(sql)
@@ -32,19 +32,18 @@ const insertClassificacao = async function(classificacao){
             return false
 
     } catch (error) {
-                console.log(error)
-
+        console.log(error)
         return false
     }
 }
 
-const updateClassificacao = async function(classificacao){
+const updatePapel = async function(papel){
 
     try {
 
-        let sql = `update tbl_classificacao set
-                        classificacao = '${classificacao.classificacao}'
-                    where id = ${classificacao.id};`
+        let sql = `update tbl_papel set
+                        papel = '${papel.papel}'
+                    where id = ${papel.id};`
 
         let result = await knexConection.raw(sql)
 
@@ -54,37 +53,16 @@ const updateClassificacao = async function(classificacao){
             return false
 
     } catch (error) {
-                console.log(error)
-
+        console.log(error)
         return false
     }
 }
 
-const selectAllClassificacao = async function(){
+const selectAllPapel = async function(){
 
     try {
 
-        let sql = 'select * from tbl_classificacao order by id desc'
-
-        let result = await knexConection.raw(sql)
-
-        if(Array.isArray(result)){
-            return result[0]
-        }else{
-            return false
-        }
-
-    } catch (error) {
-         console.log(error)
-        return false
-    }
-}
-
-const selectByIdClassificacao = async function(id){
-
-    try {
-
-        let sql = `select * from tbl_classificacao where id=${id}`
+        let sql = 'select * from tbl_papel order by id desc'
 
         let result = await knexConection.raw(sql)
 
@@ -100,11 +78,31 @@ const selectByIdClassificacao = async function(id){
     }
 }
 
-const deleteClassificacao = async function(id){
+const selectByIdPapel = async function(id){
 
     try {
 
-        let sql = `delete from tbl_classificacao where id = ${id};`
+        let sql = `select * from tbl_papel where id=${id}`
+
+        let result = await knexConection.raw(sql)
+
+        if(Array.isArray(result)){
+            return result[0]
+        }else{
+            return false
+        }
+
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+
+const deletePapel = async function(id){
+
+    try {
+
+        let sql = `delete from tbl_papel where id = ${id};`
 
         let result = await knexConection.raw(sql)
 
@@ -114,16 +112,15 @@ const deleteClassificacao = async function(id){
             return false
 
     } catch (error) {
-                console.log(error)
-
+        console.log(error)
         return false
     }
 }
 
 module.exports = {
-    insertClassificacao,
-    updateClassificacao,
-    selectAllClassificacao,
-    selectByIdClassificacao,
-    deleteClassificacao
+    insertPapel,
+    updatePapel,
+    selectAllPapel,
+    selectByIdPapel,
+    deletePapel
 }
