@@ -206,11 +206,16 @@ const validarDados = async function(classificacao){
 
     let customMessage = JSON.parse(JSON.stringify(configMessages))
 
-    if(classificacao.classificacao == undefined || classificacao.classificacao == '' || classificacao.classificacao == null || classificacao.classificacao.length > 20){
+    if(classificacao.sigla == undefined || classificacao.sigla == '' || classificacao.sigla == null || classificacao.sigla.length > 3){
 
-        customMessage.ERROR_BAD_REQUEST.field = '[CLASSIFICAÇÃO] INVÁLIDA'
+        customMessage.ERROR_BAD_REQUEST.field = '[SIGLA] INVÁLIDA'
         return customMessage.ERROR_BAD_REQUEST //400
-
+    }else if(classificacao.nome == undefined || classificacao.nome == ''||classificacao.nome == null|| classificacao.nome.length > 10){
+        customMessage.ERROR_BAD_REQUEST.field = '[NOME] INVÁLIDO'
+        return customMessage.ERROR_BAD_REQUEST //400
+    }else if(classificacao.descricao == undefined || classificacao.descricao == ''|| classificacao.descricao == null||classificacao.descricao.length > 50){
+        customMessage.ERROR_BAD_REQUEST.field = '[DESCRICAO] INVÁLIDA'
+        return customMessage.ERROR_BAD_REQUEST //400
     }else{
         return false
     }

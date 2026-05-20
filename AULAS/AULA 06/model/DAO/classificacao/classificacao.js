@@ -19,9 +19,13 @@ const insertClassificacao = async function(classificacao){
     try {
 
         let sql = `insert into tbl_classificacao(
-            classificacao
+            sigla,
+            descricao,
+            nome
         ) values(
-            '${classificacao.classificacao}'
+            '${classificacao.sigla}',
+            '${classificacao.descricao}'
+            '${classificacao.nome}'
         );`
 
         let result = await knexConection.raw(sql)
@@ -43,7 +47,9 @@ const updateClassificacao = async function(classificacao){
     try {
 
         let sql = `update tbl_classificacao set
-                        classificacao = '${classificacao.classificacao}'
+                        sigla = '${classificacao.sigla}',
+                        sigla = '${classificacao.descricao}',
+                        sigla = '${classificacao.nome}'
                     where id = ${classificacao.id};`
 
         let result = await knexConection.raw(sql)

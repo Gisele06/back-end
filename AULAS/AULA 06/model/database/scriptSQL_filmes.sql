@@ -107,6 +107,26 @@ select
     ) as descricao
 from tbl_classificacao;
 
+delete from tbl_filme;
+
+select * from tbl_classificacao;
+alter table tbl_filme 
+	add column id_classificacao int not null, 
+    add constraint FK_CLASSIFICACAO_FILME
+		foreign key(id_classificacao)
+        references tbl_classificacao(id);
+    
+select * from tbl_classificacao;
+	alter table tbl_classificacao
+		change column classificacao sigla varchar(3),
+		add column descricao varchar(40) not null,
+		add column nome varchar(10) not null;
+        
+        select * from tbl_classificacao;
+			
+            
+    
+
 create table tbl_ator(
 id 							int not null auto_increment primary key,
 nome 						varchar(100) not null,

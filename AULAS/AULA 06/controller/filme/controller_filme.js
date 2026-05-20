@@ -10,6 +10,8 @@ const configMessages = require ('../modulo/configMessages.js')
 //Import do arquivo do DAO para manipular os dados de filme no Banco de Dados
 const filmeDAO = require('../../model/DAO/filme/filme.js')
 
+//Import das Controllers
+const controllerClassificacao = require('../classificacao/controller_classificacao.js')
 //Função para inserir um novo filme
 const inserirNovoFilme = async function (filme, contentType){
 
@@ -123,6 +125,25 @@ const listarFilmes = async function(){
             //Validação para verificar se o conteúdo do array tem dados de retorno
             //Ou se está vazio
             if(result.length > 0){
+
+
+                //Manipulação dos dados da Classificação
+                //Percorre o array de filmes
+                for (filme of result){
+                    //Busca na controller da classificação o ID referente a FK da classificacao
+                    let resultClassificacao = await controllerClassificacao.buscarClassificacao(filme.id_classificacao)
+                    
+                    //Se encontrar o ID
+                    if(resultClassificacao.status){
+
+                        //Adicionar um atributo classificacao no JSON do filme e colocar o resultado com os dados da classificação
+                        filme.classificacao = resultClassificacao.response.classificacao
+                        //Apaga o id da classificação do JSON do filme
+                        delete filme.id_classificacao
+                    }
+                }
+
+
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_RESPONSE.status 
                 customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_RESPONSE.status_code
                 customMessage.DEFAULT_MESSAGE.response.count = result.length
@@ -214,13 +235,13 @@ const validarDados = async function(filme){
         customMessage.ERROR_BAD_REQUEST.field = '[NOME] INVÁLIDO'
         return customMessage.ERROR_BAD_REQUEST
     }else if(filme.nome == undefined || filme.sinopse == ''|| filme.sinopse == null){
-        customMessage.ERROR_BAD_REQUEST.field = '[SINOPSE] INVÁLIDO'
+        customMessage.ERROR_BAD_REQUEST.field = '[SINOPSE] INVÁLIDA'
         return customMessage.ERROR_BAD_REQUEST
     }else if(filme.capa == undefined ||filme.capa == '' || filme.capa == null ||  filme.capa.length > 255){
-        customMessage.ERROR_BAD_REQUEST.field = '[CAPA] INVÁLIDO'
+        customMessage.ERROR_BAD_REQUEST.field = '[CAPA] INVÁLIDA'
         return customMessage.ERROR_BAD_REQUEST
     }else if(filme.data_lancamento == undefined || filme.data_lancamento == '' || filme.data_lancamento == null ||  filme.data_lancamento.length != 10){
-        customMessage.ERROR_BAD_REQUEST.field = '[DATA DE LANÇAMENTO] INVÁLIDO'
+        customMessage.ERROR_BAD_REQUEST.field = '[DATA DE LANÇAMENTO] INVÁLIDA'
         return customMessage.ERROR_BAD_REQUEST
     }else if(filme.duracao == undefined || filme.duracao == '' || filme.duracao == null ||  filme.duracao.length < 5){
         customMessage.ERROR_BAD_REQUEST.field = '[DURAÇÃO] INVÁLIDO'
@@ -229,7 +250,12 @@ const validarDados = async function(filme){
         customMessage.ERROR_BAD_REQUEST.field = '[VALOR] INVÁLIDO'
         return customMessage.ERROR_BAD_REQUEST
     }else if(filme.avaliacao == undefined ||isNaN(filme.avaliacao)|| filme.avaliacao.length > 3){
-        customMessage.ERROR_BAD_REQUEST.field = '[AVALIAÇÃO] INVÁLIDO'
+        customMessage.ERROR_BAD_REQUEST.field = '[AVALIAÇÃO] INVÁLIDA'
+        return customMessage.ERROR_BAD_REQUEST
+    
+    //Validação para a FK da classificação
+    }else if(filme.id_classificacao == undefined || filme.id_classificacao == '' || filme.id_classificacao == null || isNaN(filme.id_classificacao)|| filme.id_classificacao <= 0){
+        customMessage.ERROR_BAD_REQUEST.field = '[ID] INVÁLIDO'
         return customMessage.ERROR_BAD_REQUEST
     }else{
         return false
@@ -245,7 +271,7 @@ const tratarDados = async function(filme){
     filme.duracao           =           filme.duracao.replaceAll("'", "")
     filme.valor             =           filme.valor.replaceAll("'", "")
     filme.avaliacao         =           filme.avaliacao.replaceAll("'", "")
-
+    
     return filme
 }
 module.exports = {
