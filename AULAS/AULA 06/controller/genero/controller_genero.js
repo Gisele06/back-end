@@ -18,13 +18,13 @@ const inserirNovoGenero = async function(genero, contentType){
 
         if(String(contentType).toUpperCase() == 'APPLICATION/JSON'){
 
-            let validar = await validarDados(nome)
+            let validar = await validarDados(genero)
 
             if(validar){
                 return validar
             }else{
 
-                let result = await generoDAO.insertGenero(await tratarDados(nome))
+                let result = await generoDAO.insertGenero(await tratarDados(genero))
 
                 if(result){
 
@@ -33,7 +33,7 @@ const inserirNovoGenero = async function(genero, contentType){
                     customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_CREATED_ITEM.status
                     customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_CREATED_ITEM.status_code
                     customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCESS_CREATED_ITEM.message
-                    customMessage.DEFAULT_MESSAGE.response = nome
+                    customMessage.DEFAULT_MESSAGE.response = genero
 
                     return customMessage.DEFAULT_MESSAGE
 
@@ -52,7 +52,7 @@ const inserirNovoGenero = async function(genero, contentType){
 }
 
 //Atualizar gênero
-const atualizarGenero = async function(nome, id, contentType){
+const atualizarGenero = async function(genero, id, contentType){
 
     let customMessage = JSON.parse(JSON.stringify(configMessages))
 
@@ -64,20 +64,20 @@ const atualizarGenero = async function(nome, id, contentType){
 
             if(resultBuscarGenero.status){
 
-                let validar = await validarDados(nome)
+                let validar = await validarDados(genero)
 
                 if(!validar){
 
                     genero.id = Number(id)
 
-                    let result = await generoDAO.updateGenero(await tratarDados(nome))
+                    let result = await generoDAO.updateGenero(await tratarDados(genero))
 
                     if(result){
 
                         customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_UPDATED_ITEM.status
                         customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_UPDATED_ITEM.status_code
                         customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCESS_UPDATED_ITEM.message
-                        customMessage.DEFAULT_MESSAGE.response = nome
+                        customMessage.DEFAULT_MESSAGE.response = genero
 
                         return customMessage.DEFAULT_MESSAGE
 
@@ -118,7 +118,7 @@ const listarGenero = async function(){
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_RESPONSE.status
                 customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_RESPONSE.status_code
                 customMessage.DEFAULT_MESSAGE.response.count = result.length
-                customMessage.DEFAULT_MESSAGE.response.nome = result
+                customMessage.DEFAULT_MESSAGE.response.genero = result
 
                 return customMessage.DEFAULT_MESSAGE
 
@@ -157,7 +157,7 @@ const buscarGenero = async function(id){
 
                     customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_RESPONSE.status
                     customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_RESPONSE.status_code
-                    customMessage.DEFAULT_MESSAGE.response.nome = result
+                    customMessage.DEFAULT_MESSAGE.response.genero = result
 
                     return customMessage.DEFAULT_MESSAGE
 
@@ -202,7 +202,7 @@ const excluirGenero = async function(id){
 }
 
 //Validar dados
-const validarDados = async function(nome){
+const validarDados = async function(genero){
 
     let customMessage = JSON.parse(JSON.stringify(configMessages))
 
@@ -219,7 +219,7 @@ const validarDados = async function(nome){
 const tratarDados = async function(genero){
     genero.nome = genero.nome.replaceAll("'", "")
 
-    return nome
+    return genero
 }
 
 module.exports = {

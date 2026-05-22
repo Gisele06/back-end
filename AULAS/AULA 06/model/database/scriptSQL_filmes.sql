@@ -69,14 +69,30 @@ atividade 	varchar(50) not null
 
 create table tbl_genero (
 id 		int not null auto_increment primary key,
-genero 	varchar(15) not null
+nome 	varchar(15) not null
 );
 
 insert into tbl_genero(
-genero
+nome
 )values(
 'terror'
 );
+
+create table tbl_filme_genero(
+	id int not null auto_increment primary key,
+    id_genero int not null,
+    id_filme int not null,
+    
+    constraint FK_FILME_FILMEGENERO
+    foreign key (id_filme)
+    references tbl_filme(id),
+
+	constraint FK_GENERO_FILMEGENERO
+	foreign key (id_filme)
+	references tbl_genero(id)
+)
+drop table tbl_genero;
+
 
 create table tbl_classificacao(
 id 				int not null auto_increment primary key,
@@ -123,7 +139,7 @@ select * from tbl_classificacao;
 		add column nome varchar(10) not null;
         
         select * from tbl_classificacao;
-			
+		delete from tbl_classificacao;
             
     
 
