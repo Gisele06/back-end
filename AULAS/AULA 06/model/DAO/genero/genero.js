@@ -12,14 +12,14 @@ const knexDatabaseConfig = require('../../database_config/knexConfig.js')
 const knexConection = knex(knexDatabaseConfig.development)
 
 //Inserir gênero
-const insertGenero = async function(genero){
+const insertGenero = async function(nome){
 
     try {
 
         let sql = `insert into tbl_genero(
-                        genero
+                        nome
                     ) values(
-                        '${genero.genero}'
+                        '${genero.nome}'
                     );`
 
         let result = await knexConection.raw(sql)
@@ -35,13 +35,13 @@ const insertGenero = async function(genero){
 }
 
 //Atualizar gênero
-const updateGenero = async function(genero){
+const updateGenero = async function(nome){
 
     try {
 
         let sql = `update tbl_genero set
-                        genero = '${genero.genero}'
-                    where id = ${genero.id};`
+                        nome = '${genero.nome}'
+                    where id = ${nome.id};`
 
         let result = await knexConection.raw(sql)
 
