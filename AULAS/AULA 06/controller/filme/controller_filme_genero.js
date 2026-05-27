@@ -50,7 +50,7 @@ const atualizarFilmeGenero = async function(filmeGenero, id){
 
     try {
             let resultBuscarID = await buscarFilmeGenero(id)
-
+            console.log(resultBuscarID)
             if(resultBuscarID.status){
 
                 let validar = await validarDados(filmeGenero)
@@ -266,11 +266,35 @@ const excluirFilmeGenero = async function(id){
     }
 }
 
+//Função para excluir a relação de generos com o Filme
+const excluirGenerosIdFilme = async function(idFilme){
+    let customMessage = JSON.parse(JSON.stringify(configMessages))
+
+    try {
+
+        if(resultBuscarID.status){
+            let result = await filmeGeneroDAO.deletegeneros(idFilme)
+
+            if(result){
+                return customMessage.SUCCESS_DELETED_ITEM //200 (registro excluído)
+            }else{
+                return customMessage.ERROR_INTERNAL_SERVER_MODEL //500 (model)
+            }
+
+        }else{
+            return resultBuscarID
+        }
+
+    } catch (error) {
+        return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER
+    }
+}
+
 const validarDados = async function(filmeGenero){
 
     let customMessage = JSON.parse(JSON.stringify(configMessages))
 
-    if(filmeGenero.id_flme == undefined || filmeGenero.id_flme == '' || filmeGenero.id_flme == null || isNaN(filmeGenero.id_flme) || filmeGenero.id_flme <=0){
+    if(filmeGenero.id_filme == undefined || filmeGenero.id_filme == '' || filmeGenero.id_filme == null || isNaN(filmeGenero.id_filme) || filmeGenero.id_filme <=0){
         customMessage.ERROR_BAD_REQUEST.field = '[ID_FILME] INVÁLIDO'
         return customMessage.ERROR_BAD_REQUEST
 
@@ -290,5 +314,6 @@ module.exports = {
     buscarFilmeGenero,
     buscarFilmeIdGenero,
     buscarGenerosIdFilme,
-    excluirFilmeGenero
+    excluirFilmeGenero,
+    excluirGenerosIdFilme
 }

@@ -19,7 +19,7 @@ const insertFilmeGenero = async function(filmeGenero){
 
     try {
 
-        let sql = `insert into tbl_classificacao(
+        let sql = `insert into tbl_filme_genero(
             id_filme,
             id_genero
         ) values(
@@ -45,9 +45,9 @@ const updateFilmeGenero  = async function(filmeGenero){
 
     try {
 
-        let sql = `update tbl_classificacao set
+        let sql = `update tbl_filme_genero set
                         id_filme  =  ${filmeGenero.id_filme},
-                        id_genero =  ${filmeGenero.id_genero},
+                        id_genero =  ${filmeGenero.id_genero}
 
                         where id = ${filmeGenero.id}
 
@@ -158,11 +158,35 @@ const deleteFilmeGenero  = async function(id){
     }
 }
 
+//Função para excluir os generos relacionados com um filme
+//Obs: Esta função será utilizada no PUT do Filme
+const deleteGenerosByIdFilme  = async function(idFilme){
+
+    try {
+
+        let sql = `delete from tbl_filme_genero where id_filme = ${idFilme};`
+
+        let result = await knexConection.raw(sql)
+        console.log(result)
+        if(result)
+            return true
+        else
+            return false
+
+    } catch (error) {
+        console.log(error)
+
+        return false
+    }
+}
+
+
 module.exports = {
     insertFilmeGenero ,
     updateFilmeGenero ,
     selectAllFilmeGenero ,
     selectGeneroByIdFilme ,
     selectFilmeByIdGenero,
-    deleteFilmeGenero 
+    deleteFilmeGenero,
+    deleteGenerosByIdFilme
 }
