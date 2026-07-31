@@ -3,22 +3,19 @@
  * Data: 15/04/2026
  * Autor: Gisele
  * Versão: 1.0
- ******************************************************************************/
+ **************************************************************/
 
 const knex = require('knex')
-
 const knexDatabaseConfig = require('../../database_config/knexConfig.js')
-
 const knexConection = knex(knexDatabaseConfig.development)
 
-//Inserir gênero
+// Inserir gênero
 const insertGenero = async function(genero){
-
     try {
-
-        let sql = `insert into tbl_genero(
+        // Garantindo que insere na coluna 'nome' com a propriedade 'nome' enviada no JSON
+        let sql = `insert into tbl_genero (
                         nome
-                    ) values(
+                    ) values (
                         '${genero.nome}'
                     );`
 
@@ -34,11 +31,9 @@ const insertGenero = async function(genero){
     }
 }
 
-//Atualizar gênero
+// Atualizar gênero
 const updateGenero = async function(genero){
-
     try {
-
         let sql = `update tbl_genero set
                         nome = '${genero.nome}'
                     where id = ${genero.id};`
@@ -55,16 +50,14 @@ const updateGenero = async function(genero){
     }
 }
 
-//Listar todos os gêneros
+// Listar todos os gêneros
 const selectAllGenero = async function(){
-
     try {
-
         let sql = 'select * from tbl_genero order by id desc'
 
         let result = await knexConection.raw(sql)
 
-        if(Array.isArray(result))
+        if(result)
             return result[0]
         else
             return false
@@ -74,16 +67,14 @@ const selectAllGenero = async function(){
     }
 }
 
-//Buscar gênero por ID
+// Buscar gênero por ID
 const selectByIdGenero = async function(id){
-
     try {
-
         let sql = `select * from tbl_genero where id = ${id}`
 
         let result = await knexConection.raw(sql)
 
-        if(Array.isArray(result))
+        if(result)
             return result[0]
         else
             return false
@@ -93,11 +84,9 @@ const selectByIdGenero = async function(id){
     }
 }
 
-//Excluir gênero
+// Excluir gênero
 const deleteGenero = async function(id){
-
     try {
-
         let sql = `delete from tbl_genero where id = ${id}`
 
         let result = await knexConection.raw(sql)

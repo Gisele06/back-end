@@ -25,7 +25,7 @@ const insertFilme = async function(filme){
             data_lancamento,
             duracao,
             valor,
-            avaliacao,
+            avaliacao,  
             id_classificacao
         ) values(
             '${filme.nome}',
@@ -46,6 +46,7 @@ const insertFilme = async function(filme){
         else
         return false
     } catch (error) {
+        console.log(error)
        return false
     }
 }
@@ -56,24 +57,24 @@ const insertFilme = async function(filme){
 //Função para atualizar um filme existente no banco de dados
 const updateFilme = async function(filme){
     try {
-        let sql =   `update tbl_filme set 
+        let sql = `update tbl_filme set 
                         nome                = '${filme.nome}',
                         sinopse             = '${filme.sinopse}',
                         capa                = '${filme.capa}',
                         data_lancamento     = '${filme.data_lancamento}',
                         duracao             = '${filme.duracao}',
                         valor               = '${filme.valor}',
-                        avaliacao           = if('${filme.avaliacao}' = '', null, '${filme.avaliacao}'),
-                        id_classificacao    = ${filme.id_classificacao} //numero inteiro não precisa das aspas
- 
+                        avaliacao           = ${filme.avaliacao ? `'${filme.avaliacao}'` : null},
+                        id_classificacao    = ${filme.id_classificacao}
 
-                    where id            = ${filme.id};`
+                    where id = ${filme.id};`
+
         let result = await knexConection.raw(sql)
 
-        if(result)
+        if (result)
             return true
         else
-        return false
+            return false
     } catch (error) {
         return false
     }

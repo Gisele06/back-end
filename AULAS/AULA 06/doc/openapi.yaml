@@ -1,8 +1,7 @@
 openapi: 3.0.3
 info:
-  title: Projeto controle de filme - SENAI
-  description: |-
-   API destinada ao controle de filmes para o projeto "Bem Legal" do SENAI 
+  title: Projeto Controle de Filme - SENAI
+  description: API destinada ao controle de filmes para o projeto "Bem Legal" do SENAI
   termsOfService: http://swagger.io/terms/
   contact:
     email: giselerodrigues0900@email.com
@@ -14,7 +13,7 @@ externalDocs:
   description: Find out more about Swagger
   url: http://swagger.io
 servers:
-  - url: http://
+  - url: http://localhost:8080
 paths:
   /v1/senai/locadora/filme:
     post:
@@ -27,7 +26,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Filme'
+              $ref: '#/components/schemas/FilmeInput'
         required: true
       responses:
         '201':
@@ -37,7 +36,7 @@ paths:
         '415':
           description: Invalid Content-Type
         '500':
-        description: Error internal server(controller/model)
+          description: Error internal server(controller/model)
     get:
       tags:
         - Filme
@@ -51,10 +50,10 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Filme'          
-           
+                  $ref: '#/components/schemas/Filme'
         '404':
           description: Not Found
+
   /v1/senai/locadora/filme/{id}:
     get:
       tags:
@@ -65,8 +64,7 @@ paths:
         - name: id
           in: path
           description: ID para realizar a busca do Filme
-          required: 
-          
+          required: true
           schema:
             type: integer
             format: int64
@@ -76,7 +74,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Filme'          
+                $ref: '#/components/schemas/Filme'
         '400':
           description: Invalid ID supplied
         '404':
@@ -101,7 +99,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Filme'
+              $ref: '#/components/schemas/FilmeInput'
         required: true
       responses:
         '200':
@@ -114,7 +112,6 @@ paths:
           description: Invalid Content-Type
         '500':
           description: Internal server error (controller/model)
-      
     delete:
       tags:
         - Filme
@@ -123,7 +120,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: ID of pet to return
+          description: ID para realizar a busca do Filme
           required: true
           schema:
             type: integer
@@ -137,36 +134,350 @@ paths:
           description: Not found
         '500':
           description: Error Internal Server (controller/model)
+
+  /v1/senai/locadora/pessoa:
+    post:
+      tags:
+        - Pessoa
+      summary: Adiciona uma nova Pessoa
+      description: Adiciona uma nova Pessoa
+      requestBody:
+        description: JSON contendo os dados da pessoa
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PessoaInput'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+        '400':
+          description: Invalid input
+        '500':
+          description: Error internal server
+    get:
+      tags:
+        - Pessoa
+      summary: Lista todas as Pessoas
+      description: Listagem de todas as Pessoas
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pessoa'
+        '404':
+          description: Not Found
+
+  /v1/senai/locadora/pessoa/{id}:
+    get:
+      tags:
+        - Pessoa
+      summary: Buscar Pessoa pelo ID
+      description: Retorna uma pessoa pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pessoa'
+        '404':
+          description: Not found
+    put:
+      tags:
+        - Pessoa
+      summary: Atualizar Pessoa pelo ID
+      description: Buscar e atualizar uma pessoa pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Dados para atualizar a pessoa
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PessoaInput'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Not found
+    delete:
+      tags:
+        - Pessoa
+      summary: Delete Pessoa
+      description: Excluir pessoa pelo ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+        '404':
+          description: Not found
+
+  /v1/senai/locadora/atividade:
+    post:
+      tags:
+        - Atividade
+      summary: Adiciona uma nova Atividade
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Atividade'
+      responses:
+        '201':
+          description: Successful operation
+    get:
+      tags:
+        - Atividade
+      summary: Lista todas as Atividades
+      responses:
+        '200':
+          description: successful operation
+
+  /v1/senai/locadora/atividade/{id}:
+    put:
+      tags:
+        - Atividade
+      summary: Atualizar Atividade
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Atividade'
+      responses:
+        '200':
+          description: Successful operation
+    delete:
+      tags:
+        - Atividade
+      summary: Excluir Atividade
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+
+  /v1/senai/locadora/genero:
+    post:
+      tags:
+        - Genero
+      summary: Criar Gênero
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Genero'
+      responses:
+        '201':
+          description: Successful operation
+    get:
+      tags:
+        - Genero
+      summary: Listar Gêneros
+      responses:
+        '200':
+          description: successful operation
+
+  /v1/senai/locadora/classificacao:
+    post:
+      tags:
+        - Classificacao
+      summary: Criar Classificação
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Classificacao'
+      responses:
+        '201':
+          description: Successful operation
+    get:
+      tags:
+        - Classificacao
+      summary: Listar Classificações
+      responses:
+        '200':
+          description: successful operation
+
 components:
   schemas:
-    Filme:
+    FilmeInput:
+      type: object
       required:
         - nome
         - sinopse
+        - duracao
         - data_lancamento
+        - classificacao_id
+      properties:
+        nome:
+          type: string
+          example: "Inception"
+        sinopse:
+          type: string
+          example: "Um filme sobre sonhos dentro de sonhos."
+        duracao:
+          type: string
+          example: "02:28:00"
+        data_lancamento:
+          type: string
+          format: date
+          example: "2010-07-16"
+        data_relancamento:
+          type: string
+          format: date
+          nullable: true
+          example: "2020-08-27"
+        foto_capa:
+          type: string
+          example: "https://capa.com/foto.jpg"
+        valor_reallizacao:
+          type: number
+          format: float
+          example: 160000000.00
+        classificacao_id:
+          type: integer
+          example: 1
+        generos:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+          example: [{"id": 1}]
+
+    Filme:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+        - $ref: '#/components/schemas/FilmeInput'
+
+    PessoaInput:
       type: object
+      required:
+        - nome
+        - data_nascimento
+        - nacionalidade_id
+      properties:
+        nome:
+          type: string
+          example: "Christopher Nolan"
+        data_nascimento:
+          type: string
+          format: date
+          example: "1970-07-30"
+        data_falecimento:
+          type: string
+          format: date
+          nullable: true
+        biografia:
+          type: string
+          example: "Diretor e Roteirista."
+        foto:
+          type: string
+          example: "https://foto.com/nolan.jpg"
+        nacionalidade_id:
+          type: integer
+          example: 1
+        atividades:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+          example: [{"id": 1}, {"id": 2}]
+
+    Pessoa:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+        - $ref: '#/components/schemas/PessoaInput'
+
+    Atividade:
+      type: object
+      required:
+        - nome
       properties:
         id:
           type: integer
+          example: 1
         nome:
           type: string
-        sinopse:
-          type: string
-        capa:
-          type: string
-        valor:
+          example: "Diretor"
+
+    Genero:
+      type: object
+      required:
+        - nome
+      properties:
+        id:
           type: integer
-        data_lancamento:
-          type: integer
-        avaliacao:
-          type: integer
-        duracao:
+          example: 1
+        nome:
           type: string
-  requestBodies:
-    Filme:
-      description: Objeto que deve ser enviado no Body das requisicoes
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Filme'
-    
+          example: "Ficção Científica"
+
+    Classificacao:
+      type: object
+      required:
+        - faixa_etaria
+      properties:
+        id:
+          type: integer
+          example: 1
+        faixa_etaria:
+          type: string
+          example: "14"
+        descricao:
+          type: string
+          example: "Não recomendado para menores de 14 anos"
+        icone:
+          type: string
+          example: "https://icone.com/14.png"

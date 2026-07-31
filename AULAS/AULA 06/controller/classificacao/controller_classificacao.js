@@ -220,14 +220,19 @@ const validarDados = async function(classificacao){
         return false
     }
 }
-
 const tratarDados = async function(classificacao){
 
-    classificacao.classificacao = classificacao.classificacao.replaceAll("'", "")
+    if (classificacao.sigla)
+        classificacao.sigla = String(classificacao.sigla).replaceAll("'", "")
+
+    if (classificacao.nome)
+        classificacao.nome = String(classificacao.nome).replaceAll("'", "")
+
+    if (classificacao.descricao)
+        classificacao.descricao = String(classificacao.descricao).replaceAll("'", "")
 
     return classificacao
 }
-
 module.exports = {
     inserirNovaClassificacao,
     atualizarClassificacao,

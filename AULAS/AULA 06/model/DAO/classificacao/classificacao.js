@@ -15,18 +15,16 @@ const knexDatabaseConfig = require('../../database_config/knexConfig.js')
 const knexConection = knex(knexDatabaseConfig.development)
 
 const insertClassificacao = async function(classificacao){
-
     try {
-
-        let sql = `insert into tbl_classificacao(
-            sigla,
-            descricao,
-            nome
-        ) values(
-            '${classificacao.sigla}',
-            '${classificacao.descricao}'
-            '${classificacao.nome}'
-        );`
+        let sql = `insert into tbl_classificacao (
+                        sigla,
+                        nome,
+                        descricao
+                    ) values (
+                        '${classificacao.sigla}',
+                        '${classificacao.nome}',
+                        '${classificacao.descricao}'
+                    );`
 
         let result = await knexConection.raw(sql)
 
@@ -36,20 +34,16 @@ const insertClassificacao = async function(classificacao){
             return false
 
     } catch (error) {
-                console.log(error)
-
         return false
     }
 }
 
 const updateClassificacao = async function(classificacao){
-
     try {
-
         let sql = `update tbl_classificacao set
-                        sigla = '${classificacao.sigla}',
-                        sigla = '${classificacao.descricao}',
-                        sigla = '${classificacao.nome}'
+                        sigla     = '${classificacao.sigla}',
+                        nome      = '${classificacao.nome}',
+                        descricao = '${classificacao.descricao}'
                     where id = ${classificacao.id};`
 
         let result = await knexConection.raw(sql)
@@ -60,12 +54,9 @@ const updateClassificacao = async function(classificacao){
             return false
 
     } catch (error) {
-                console.log(error)
-
         return false
     }
 }
-
 const selectAllClassificacao = async function(){
 
     try {
